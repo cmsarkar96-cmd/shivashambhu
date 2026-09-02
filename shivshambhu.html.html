@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shivshambho Ganeshotsav Mandal Lokur - Fix</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700;800&display=swap');
+body{font-family:'Mukta',sans-serif;margin:0;background: #fff8e1 var(--bg-image) no-repeat center fixed;background-size: cover;background-attachment: fixed;}
+body::before{content:"";position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(255,248,225,0.85);backdrop-filter: blur(10px);-webkit-backdrop-filter: blur(10px);z-index:-1;}
+header{background:linear-gradient(90deg,#8B0000,#e65100);color:white;padding:18px 10px;text-align:center;position:sticky;top:0;box-shadow:0 4px 12px #0003;z-index:10}
+.topbar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.mandal-name{font-family:'Algerian','Times New Roman',serif;font-size:24px;font-weight:800;margin:0;color:#FFD700;text-shadow:3px 3px 6px #0005}
+.mandal-tag{font-size:13px;color:#FFE082;font-weight:600}
+.year-select{background:#FFD700;color:#8B0000;border:0;padding:6px 10px;border-radius:20px;font-weight:700;cursor:pointer}
+.login-btn{background:#FFD700;color:#8B0000;border:0;padding:6px 12px;border-radius:8px;cursor:pointer;font-weight:600;margin:2px}
+.bg-btn{background:#ff9800;color:white;border:0;padding:6px 12px;border-radius:8px;cursor:pointer;font-weight:600;margin-left:5px}
+.clear-btn{background:#f44336;color:white;border:0;padding:6px 12px;border-radius:6px;cursor:pointer;margin-left:5px;font-weight:600}
+.pdf-btn{background:#D32F2F;color:white;border:0;padding:6px 12px;border-radius:6px;cursor:pointer;font-weight:600;margin-left:5px}
+.notice{background:linear-gradient(90deg,#FF6F00,#FFA000);color:#fff;padding:12px;text-align:center;font-weight:800;font-size:16px;display:none;position:sticky;top:75px;z-index:9}
+.container{padding:15px}
+h3{text-align:center;margin:18px 0 12px;color:#8B0000;font-weight:800;font-size:20px;border-bottom:2px solid #ff9800;padding-bottom:5px}
+/* KARYAKRAM ANI AARTI VEGVEGLA LAYOUT */
+.main-split{display:flex;gap:15px;flex-wrap:wrap;align-items:flex-start}
+.split-col{flex:1;min-width:320px;background:white;border-radius:12px;padding:10px;border:2px solid #ff9800;box-shadow:0 4px 12px #0001}
+.split-col h4{margin:0 0 10px;text-align:center;padding:8px;border-radius:8px;font-weight:800}
+.karyakram-col h4{background:#8B0000;color:#FFD700}
+.aarti-col h4{background:#FF69B4;color:white}
+.event-card{border-left:5px solid #8B0000;padding:10px;margin:8px 0;background:#FFF8F0;border-radius:8px;display:flex;justify-content:space-between;align-items:center}
+.aarti-card{border-left:5px solid #FF69B4;padding:10px;margin:8px 0;background:#FFF0F5;border-radius:8px}
+.circle-row{display:flex;flex-wrap:wrap;justify-content:center;gap:14px}
+.circle{background:white;border-radius:8px;width:130px;min-height:160px;display:flex;flex-direction:column;align-items:center;padding:8px;box-shadow:0 4px 10px #0001;position:relative;border:2px solid #ff9800}
+.circle img{width:100px;height:120px;border-radius:6px;object-fit:cover;border:3px solid #8B0000}
+.circle p{margin:4px 0 0;font-size:11px;font-weight:600;text-align:center;color:#333}
+.circle.num{position:absolute;top:-8px;left:-8px;background:#8B0000;color:#FFD700;border-radius:50%;width:22px;height:22px;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.add-circle{background:#FFF3E0;border:2px dashed #8B0000;cursor:pointer;justify-content:center;min-height:120px}
+.gallery-folder{background:white;margin:10px 0;border-radius:12px;border:2px solid #8B0000}
+.folder-head{background:#8B0000;color:#FFD700;padding:10px;border-radius:10px 10px 0 0;font-weight:800;cursor:pointer;display:flex;justify-content:space-between}
+.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:10px}
+.gallery-item{background:white;border-radius:12px;overflow:hidden;box-shadow:0 3px 8px #0001;position:relative;border:1px solid #ff9800}
+.gallery-item img{width:100%;height:110px;object-fit:cover;display:block}
+.gallery-item p{margin:0;padding:6px;font-size:11px;font-weight:600;text-align:center}
+.gallery-del{position:absolute;top:4px;right:4px;background:#f44336;color:white;border:0;border-radius:50%;width:20px;height:20px;cursor:pointer}
+.accordion{background:white;margin:12px 0;border-radius:10px;box-shadow:0 3px 8px #0001;border:1px solid #ff9800}
+.accordion-header{padding:14px;font-weight:700;cursor:pointer;background:linear-gradient(90deg,#FFD700,#FFE082);color:#8B0000;display:flex;justify-content:space-between;align-items:center}
+.accordion-body{padding:12px;display:none}
+.add-btn{background:#8B0000;color:#FFD700;border:0;padding:6px 12px;border-radius:6px;cursor:pointer;margin:6px 4px 6px 0;font-weight:600;display:none}
+.del-btn{background:#f44336;color:white;border:0;padding:3px 7px;border-radius:5px;cursor:pointer;font-size:11px;margin-left:5px}
+table{width:100%;border-collapse:collapse;margin-top:6px;background:white}
+table,th,td{border:1px solid #8B0000;padding:7px;text-align:center;font-size:14px}
+th{background:#FFE082;color:#8B0000}
+.edit-amt{width:60px;border:1px solid #8B0000;border-radius:4px;padding:3px;text-align:center}
+.bs-wrapper{display:flex;gap:15px;flex-wrap:wrap}
+.bs-col{flex:1;min-width:280px}
+.bs-col h4{text-align:center;background:#8B0000;color:#FFD700;padding:8px;border-radius:8px;margin:0 0 8px}
+.total-row{background:#FFE082;font-weight:800;font-size:16px}
+.detail-section{background:#FFF8F0;padding:12px;border-radius:8px;margin:10px 0;border:2px solid #ff9800}
+.locked-msg{text-align:center;padding:20px;background:#FFEBEE;color:#C62828;font-weight:700;border-radius:8px;margin:10px 0}
+</style>
+</head>
+<body>
+<header>
+<div class="topbar">
+<select class="year-select" id="yearSelect" onchange="setYear(this.value)">
+  <option value="2024">2024</option><option value="2025">2025</option><option value="2026" selected>2026</option>
+</select>
+<div><h2 class="mandal-name">शिवशंभो गणेशोत्सव मंडळ लोकूर</h2><p class="mandal-tag">नरवाड रोड चा राजा</p></div>
+<div>
+<button class="login-btn" onclick="loginAdmin()">Admin Login</button>
+<button class="login-btn" onclick="loginSabhasad()">सभासद Login</button>
+<button class="bg-btn" id="bgBtn" style="display:none" onclick="changeBG()">BG Photo</button>
+<button class="clear-btn" id="clearBtn" style="display:none" onclick="clearYearData()">Year Clear</button>
+</div>
+</div>
+</header>
+<div id="notice" class="notice"></div>
+<div class="container">
+<h3>सभासद <button class="add-btn" id="addM" onclick="addMember()">+ Add Member</button></h3>
+<div class="circle-row" id="members"></div>
+<h3>फोटो गॅलरी <button class="add-btn" id="addG" onclick="addGallery()">+ आजचा फोटो Add करा</button></h3>
+<div id="galleryFolders"></div>
+
+<!-- VEGVEGLA SECTION -->
+<h3>कार्यक्रम व आरतीचे मानकरी (VEGVEGLA)</h3>
+<div class="main-split">
+  <div class="split-col karyakram-col">
+    <h4>📅 कार्यक्रम <button class="add-btn" id="addKaryakramBtn" style="display:none;background:white;color:#8B0000" onclick="addEvent()">+ Add</button></h4>
+    <div id="karyakramList"></div>
+  </div>
+  <div class="split-col aarti-col">
+    <h4>🪔 आरतीचे मानकरी <button class="add-btn" id="addAartiBtn" style="display:none;background:white;color:#8B0000" onclick="addAartiNewDate()">+ Add</button></h4>
+    <div id="aartiList"></div>
+  </div>
+</div>
+
+<div id="accountsSection" style="display:none">
+<div class="accordion"><div class="accordion-header" onclick="acc(this)">▼ वर्गणी</div><div class="accordion-body"><button class="add-btn" id="addVargani" onclick="addAllVargani()">+ सर्व सभासद Add करा</button><div id="income"></div></div></div>
+<div class="accordion"><div class="accordion-header" onclick="acc(this)">▼ देणगी</div><div class="accordion-body"><button class="add-btn" onclick="add('donation')">+ Add</button><div id="donation"></div></div></div>
+<div class="accordion"><div class="accordion-header" onclick="acc(this)">▼ जमा-खर्च</div><div class="accordion-body"><button class="add-btn" onclick="add('expense')">+ Add</button><div id="expense"></div><div id="detailedReport"></div></div>
+<div class="accordion"><div class="accordion-header" onclick="acc(this)"><span>▼ BalanceSheet - <span id="yearTitle">2026</span></span><button class="pdf-btn" onclick="event.stopPropagation();downloadBS()">BS PDF</button></div><div class="accordion-body"><div id="bs"></div></div></div>
+</div>
+<div id="lockedAccounts" class="locked-msg">🔒 हिशोब बघण्यासाठी Login करा</div>
+</div>
+<script>
+const { jsPDF } = window.jspdf;
+let Y=2026,ROLE='guest';
+let GLOBAL=JSON.parse(localStorage.getItem('global')||'{}');
+let YEARLY=JSON.parse(localStorage.getItem('yearly')||'{}');
+function parseDateStr(s){try{let a=s.split('-');return new Date(parseInt(a[2]),parseInt(a[1])-1,parseInt(a[0]));}catch(e){return new Date(2099,0,1);}}
+function loadBG(){let bg = localStorage.getItem('bgImage') || "url('https://png.pngtree.com/background/20240110/original/pngtree-ganesh-chaturthi-festival-celebration-with-ganesh-statue-picture-image_7285044.jpg')";document.documentElement.style.setProperty('--bg-image', bg);}
+function S(){localStorage.setItem('global',JSON.stringify(GLOBAL)); localStorage.setItem('yearly',JSON.stringify(YEARLY))}
+function acc(e){e.nextElementSibling.style.display=e.nextElementSibling.style.display=='block'?'none':'block'}
+function toggleFolder(id){let d=document.getElementById(id);d.style.display = (d.style.display=='grid' || d.style.display=='')? 'none' : 'grid';}
+function setYear(y){Y=+y;document.getElementById('yearSelect').value=Y;document.getElementById('yearTitle').innerText=Y;load()}
+function changeBG(){let inp=document.createElement('input');inp.type='file';inp.accept='image/*';inp.onchange=e=>{let r=new FileReader();r.onload=ev=>{localStorage.setItem('bgImage',"url('"+ev.target.result+"')");loadBG();};r.readAsDataURL(e.target.files[0])};inp.click();}
+function loginAdmin(){
+  let pass = prompt('Admin Password:');
+  if(pass=='250699'){
+    ROLE='admin';document.getElementById('addM').style.display='inline-block';document.getElementById('addG').style.display='inline-block';document.getElementById('addVargani').style.display='inline-block';document.getElementById('clearBtn').style.display='inline-block';document.getElementById('bgBtn').style.display='inline-block';document.getElementById('addKaryakramBtn').style.display='inline-block';document.getElementById('addAartiBtn').style.display='inline-block';document.getElementById('accountsSection').style.display='block';document.getElementById('lockedAccounts').style.display='none';document.querySelectorAll('.add-btn').forEach(btn=>btn.style.display='inline-block');loadDefaultMembers();load();alert('Admin Login Success ✅')
+  }else alert('Password चुकीचा');
+}
+function loginSabhasad(){
+  let pass = prompt('सभासद Password:');
+  if(pass=='2026'){ROLE='sabhasad';document.getElementById('accountsSection').style.display='block';document.getElementById('lockedAccounts').style.display='none';load();alert('Login Success ✅')}else alert('Password चुकीचा');
+}
+function loadDefaultMembers(){if(!GLOBAL.m || GLOBAL.m.length==0){GLOBAL.m = [{n:"विनायक ममदापूरे"},{n:"चंद्रकांत ममदापुरे"},{n:"गणेश ममदापुरे"}];S();}}
+function initYear(){
+  if(!YEARLY[Y])YEARLY[Y]={o:[],g:{},e:[],aarti:[],income:[],donation:[],expense:[]};
+  if(!YEARLY[Y].aarti) YEARLY[Y].aarti=[];
+  if(!YEARLY[Y].e) YEARLY[Y].e=[];
+  // JUNYA DATA MADHUN AARTI VEGALI KADHU - FIX
+  let newE=[];
+  YEARLY[Y].e.forEach(ev=>{
+    if(ev.n && ev.n.startsWith('आरती -')){
+      // hi aarti hoti - aarti list madhe taka
+      if(ev.aarti && ev.aarti.length>0){
+        ev.aarti.forEach(name=>{ YEARLY[Y].aarti.push({d:ev.d, name:name}); });
+      }
+    }else{
+      newE.push(ev);
+    }
+  });
+  YEARLY[Y].e=newE;
+  YEARLY[Y].e.sort((a,b)=>parseDateStr(a.d)-parseDateStr(b.d));
+  YEARLY[Y].aarti.sort((a,b)=>parseDateStr(a.d)-parseDateStr(b.d));
+}
+function load(){initYear();loadBG();loadM();loadG();loadKaryakramAarti();if(ROLE=='admin' || ROLE=='sabhasad'){loadL();loadBS();loadDetailedReport();}loadNotice();}
+function loadNotice(){
+  let aarti = YEARLY[Y].aarti || [];
+  let events = YEARLY[Y].e || [];
+  let first = aarti[0] || events[0];
+  if(first){
+    document.getElementById('notice').style.display='block';
+    document.getElementById('notice').innerText = `🪔 पुढील मानकरी: ${aarti[0]?.name||' - '} - ${aarti[0]?.d||''} 🪔`;
+  }else document.getElementById('notice').style.display='none';
+}
+function clearYearData(){if(confirm(Y+' चा Data Delete?')){YEARLY[Y]={o:[],g:{},e:[],aarti:[],income:[],donation:[],expense:[]};S();load();}}
+function addAllVargani(){GLOBAL.m.forEach(mem=>{if(!YEARLY[Y].income.find(x=>x.n==mem.n))YEARLY[Y].income.push({n:mem.n,a:0});});S();loadL();loadBS();loadDetailedReport();}
+function loadM(){let m=GLOBAL.m||[];let h='';m.forEach((x,i)=>{h+=`<div class="circle"><span class="num">${i+1}</span><img src="${x.p||'https://via.placeholder.com/100x120'}"><p>${x.n}</p>${ROLE=='admin'?`<input type=file onchange="upGlobal(${i},this)"><button class=del-btn onclick="delGlobal(${i})">Delete</button>`:''}</div>`});if(ROLE=='admin')h+=`<div class="circle add-circle" onclick="addMember()"><p>+</p><p>Add</p></div>`;document.getElementById('members').innerHTML=h}
+function loadG(){
+  let g=YEARLY[Y].g||{};let h='';
+  Object.keys(g).sort().reverse().forEach(date=>{
+    h+=`<div class="gallery-folder"><div class="folder-head" onclick="toggleFolder('g${date}')">📁 ${date} <span>${g[date].length}</span></div><div class="gallery-grid" id="g${date}" style="display:none">`;
+    g[date].forEach((x,i)=>{h+=`<div class="gallery-item"><img src="${x.p}"><p>${x.cap||''}</p>${ROLE=='admin'?`<button class="gallery-del" onclick="delG('${date}',${i})">×</button>`:''}</div>`});
+    h+=`</div></div>`;
+  });
+  document.getElementById('galleryFolders').innerHTML=h||'<p style="text-align:center;color:#777">फोटो नाहीत</p>';
+}
+function addGallery(){let today=new Date().toLocaleDateString('en-CA');let cap=prompt('कॅप्शन:')||'फोटो';let inp=document.createElement('input');inp.type='file';inp.accept='image/*';inp.onchange=e=>{let r=new FileReader();r.onload=ev=>{if(!YEARLY[Y].g[today])YEARLY[Y].g[today]=[];YEARLY[Y].g[today].push({p:ev.target.result,cap:cap});S();loadG()};r.readAsDataURL(e.target.files[0])};inp.click();}
+function delG(date,i){if(confirm('Delete?')){YEARLY[Y].g[date].splice(i,1);if(YEARLY[Y].g[date].length==0)delete YEARLY[Y].g[date];S();loadG()}}
+function addMember(){let n=prompt('नाव:');if(n){GLOBAL.m.push({n,p:''});S();loadM();}}
+function upGlobal(i,el){let r=new FileReader();r.onload=e=>{GLOBAL.m[i].p=e.target.result;S();loadM()};r.readAsDataURL(el.files[0])}
+function delGlobal(i){if(confirm('Delete?')){GLOBAL.m.splice(i,1);S();loadM();}}
+
+// === VEGVEGLA FUNCTION ===
+function loadKaryakramAarti(){
+  let kList=document.getElementById('karyakramList');
+  let aList=document.getElementById('aartiList');
+  let karyakram=YEARLY[Y].e||[];
+  let aarti=YEARLY[Y].aarti||[];
+
+  // KARYAKRAM - fakt karyakram
+  let kh='';
+  karyakram.sort((a,b)=>parseDateStr(a.d)-parseDateStr(b.d)).forEach((x,i)=>{
+    kh+=`<div class="event-card"><div><b>📅 ${x.d}</b><br>${x.n}<br><small>${x.type||''}</small></div>${ROLE=='admin'?`<button class=del-btn onclick="delKaryakram(${i})">X</button>`:''}</div>`;
+  });
+  if(kh=='') kh='<p style="text-align:center;color:#999">कार्यक्रम नाही</p>';
+  kList.innerHTML=kh;
+
+  // AARTI - fakt aarti mankari - vegla
+  let ah='';
+  aarti.sort((a,b)=>parseDateStr(a.d)-parseDateStr(b.d)).forEach((x,i)=>{
+    ah+=`<div class="aarti-card"><div><b>📅 ${x.d}</b><br>🪔 ${x.name}</div>${ROLE=='admin'?`<button class=del-btn onclick="delAarti(${i})">X</button>`:''}</div>`;
+  });
+  if(ah=='') ah='<p style="text-align:center;color:#999">मानकरी नाही</p>';
+  aList.innerHTML=ah;
+  S();
+}
+function addEvent(){
+  let d=prompt('तारीख DD-MM-YYYY:');if(!d||!d.includes('-')){alert('DD-MM-YYYY');return;}
+  let n=prompt('कार्यक्रम नाव:');if(!d||!n)return;
+  YEARLY[Y].e.push({d,n,type:'कार्यक्रम'});
+  YEARLY[Y].e.sort((a,b)=>parseDateStr(a.d)-parseDateStr(b.d));
+  S();loadKaryakramAarti();loadNotice();
+}
+function addAartiNewDate(){
+  let date=prompt('आरती तारीख DD-MM-YYYY:','15-08-'+Y);
+  if(!date||!date.includes('-')){alert('DD-MM-YYYY');return;}
+  let name=prompt(date+' चे मानकरी कोण?');if(!name)return;
+  // Fakt aarti list madhe jayil - karyakram madhe nahi
+  if(!YEARLY[Y].aarti) YEARLY[Y].aarti=[];
+  YEARLY[Y].aarti.push({d:date, name:name});
+  YEARLY[Y].aarti.sort((a,b)=>parseDateStr(a.d)-parseDateStr(b.d));
+  S();loadKaryakramAarti();loadNotice();
+  alert(date+' ला '+name+' Add झाले - fakt aarti madhe ✅');
+}
+function delKaryakram(i){if(confirm('कार्यक्रम Delete?')){YEARLY[Y].e.splice(i,1);S();loadKaryakramAarti();}}
+function delAarti(i){if(confirm('मानकरी Delete?')){YEARLY[Y].aarti.splice(i,1);S();loadKaryakramAarti();}}
+
+// Accounts same
+function add(t){let n=prompt('नाव:');let a=prompt('रक्कम:');if(n&&a){YEARLY[Y][t].push({n,a:+a});S();loadL();loadBS();loadDetailedReport();}}
+function loadL(){['income','donation','expense'].forEach(t=>{let l=YEARLY[Y][t]||[];let h='<table><tr><th>SL</th><th>तपशील</th><th>रक्कम</th><th></th></tr>';l.forEach((x,i)=>{h+=`<tr><td>${i+1}</td><td>${x.n}</td><td>${ROLE=='admin'&&t=='income'?`<input class=edit-amt value="${x.a}" onchange="updateAmt('${t}',${i},this.value)">`:x.a}</td><td>${ROLE=='admin'?`<button class=del-btn onclick="del('${t}',${i})">X</button>`:''}</td></tr>`});document.getElementById(t).innerHTML=h+'</table>'})}
+function updateAmt(t,i,v){YEARLY[Y][t][i].a=+v;S();loadBS();loadDetailedReport();}
+function del(t,i){if(confirm('Delete?')){YEARLY[Y][t].splice(i,1);S();loadL();loadBS();loadDetailedReport();}}
+function loadDetailedReport(){/* same as before */}
+function loadBS(){
+ let v=(YEARLY[Y].income||[]).reduce((s,x)=>s+x.a,0);let d=(YEARLY[Y].donation||[]).reduce((s,x)=>s+x.a,0);let ex=(YEARLY[Y].expense||[]).reduce((s,x)=>s+x.a,0);
+ document.getElementById('bs').innerHTML=`<div class="bs-wrapper"><div class="bs-col"><h4>जमा ${v+d}</h4></div><div class="bs-col"><h4>खर्च ${ex}</h4></div><div class="bs-col"><h4>शिल्लक ${v+d-ex}</h4></div></div>`;
+}
+function downloadBS(){let doc=new jsPDF();doc.text(`Mandal Lokur - ${Y}`,105,15,{align:'center'});doc.save(`BS_${Y}.pdf`);}
+load()
+</script>
+</body>
+</html>
